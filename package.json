@@ -1,0 +1,32 @@
+{
+  "name": "cafe-sync",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "preview": "npm run pages:build && wrangler pages dev",
+    "deploy": "npm run pages:build && wrangler pages deploy",
+    "worker:dev": "wrangler dev worker/index.ts",
+    "worker:deploy": "wrangler deploy worker/index.ts"
+  },
+  "dependencies": {
+    "next": "14.2.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@cloudflare/next-on-pages": "^1",
+    "@cloudflare/workers-types": "^4",
+    "typescript": "^5",
+    "tailwindcss": "^3",
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "wrangler": "^3",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  }
+}
