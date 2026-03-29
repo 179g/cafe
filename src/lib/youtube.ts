@@ -14,7 +14,7 @@ export async function getVideoInfo(videoId: string): Promise<VideoInfo | null> {
       `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
     );
     if (!res.ok) return null;
-    const data = await res.json();
+    const data = await res.json() as { title: string; author_name: string };
     return {
       id: videoId,
       title: data.title,
@@ -37,8 +37,17 @@ export async function searchYouTube(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=8&key=${apiKey}`
     );
     if (!res.ok) return [];
-    const data = await res.json();
-    return (data.items || []).map((item: any) => ({
+    const data = await res.json() as {
+      items?: Array<{
+        id: { videoId: string };
+        snippet: {
+          title: string;
+          thumbnails: { medium: { url: string } };
+          channelTitle: string;
+        };
+      }>;
+    };
+    return (data.items || []).map((item) => ({
       id: item.id.videoId,
       title: item.snippet.title,
       thumbnail: item.snippet.thumbnails.medium.url,
